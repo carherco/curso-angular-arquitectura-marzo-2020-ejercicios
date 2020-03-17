@@ -12,6 +12,7 @@ import { Lazy2Module } from "./lazy2/lazy2.module";
 import { Lazy3Module } from "./lazy3/lazy3.module";
 import { Lazy4Module } from "./lazy4/lazy4.module";
 import { Lazy5Module } from "./lazy5/lazy5.module";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { Lazy5Module } from "./lazy5/lazy5.module";
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    FormsModule,
     UserModule
     //InvoicesModule,
     //Lazy1Module,

@@ -1,5 +1,20 @@
 <app-header></app-header>
 
+<h1>{{ title }}</h1>
+<h2>Hola {{ nombreCompleto() }}</h2>
+
+<input value="{{ nombre }}" />
+<input
+  [value]="nombre"
+  (keyup)="cambiarNombreDesdeInput($event.target.value)"
+/>
+
+<div *ngIf="mostrar">
+  <input [(ngModel)]="nombre" />
+</div>
+
+<button (click)="cambiarNombreDesdeBoton()">Botón</button>
+
 <router-outlet></router-outlet>
 
 <app-pie></app-pie>

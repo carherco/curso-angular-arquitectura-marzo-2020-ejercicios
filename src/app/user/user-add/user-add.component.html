@@ -1,1 +1,37 @@
-<p>user-add works!</p>
+<h3>Añade un usuario a la lista</h3>
+<form class="form-inline">
+  <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="nombre"
+      name="name"
+      [(ngModel)]="newUser.name"
+      placeholder="Escribe el nombre..."
+    />
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="email"
+      name="email"
+      [(ngModel)]="newUser.email"
+      placeholder="Email..."
+    />
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="phone"
+      name="phone"
+      [(ngModel)]="newUser.phone"
+      placeholder="Phone..."
+    />
+  </div>
+  <button type="button" class="btn btn-primary" (click)="add()">Añadir</button>
+</form>

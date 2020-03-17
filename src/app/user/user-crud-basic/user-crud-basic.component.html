@@ -1,0 +1,17 @@
+<h2>{{ title }}</h2>
+
+<app-user-add [newUser]="newUser" (addEvent)="add($event)"> </app-user-add>
+
+<div>
+  <app-user-list
+    [users]="users"
+    [selectedUser]="selectedUser"
+    (selectEvent)="onSelect($event)"
+    (deleteEvent)="delete($event)"
+  ></app-user-list>
+
+  <app-user-edit
+    [user]="selectedUser"
+    (deleteEvent)="delete($event)"
+  ></app-user-edit>
+</div>
