@@ -9,6 +9,7 @@ import { UserParentComponent } from "./user-parent/user-parent.component";
 import { UserCrudBasicComponent } from "./user-crud-basic/user-crud-basic.component";
 import { FormsModule } from "@angular/forms";
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserEditPageComponent } from './user-edit-page/user-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     UserAddComponent,
     UserParentComponent,
     UserCrudBasicComponent,
-    UserEditComponent
+    UserEditComponent,
+    UserEditPageComponent
   ],
   imports: [CommonModule, UserRoutingModule, SharedModule, FormsModule],
   exports: [UserListComponent]

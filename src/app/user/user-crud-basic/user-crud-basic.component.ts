@@ -1,6 +1,10 @@
+import { ReduxUserStateService } from "./../../core/redux-user-state.service";
 import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/shared/model/user";
 import { UserService } from "src/app/core/user.service";
+import { Router } from "@angular/router";
+import { UserState } from "src/app/reducers/user.store";
+import { LoadUsers, AddUser, DeleteUser } from "src/app/reducers/users.actions";
 
 @Component({
   selector: "user-crud-basic",
@@ -15,27 +19,46 @@ export class UserCrudBasicComponent implements OnInit {
   selectedUser: User;
   hide_without_phone: boolean = false;
 
-  constructor(private userService: UserService) {
-    this.newUser = {
-      id: this.lastId + 1,
-      name: ""
-    };
+  constructor(
+    private stateService: ReduxUserStateService,
+    private userService: UserService,
+    private router: Router
+  ) {
+    // this.newUser = {
+    //   id: this.lastId + 1,
+    //   name: ""
+    // };
 
-    let observable = this.userService.getAll();
+    // let observable = this.userService.getAll();
 
-    observable.subscribe(resupestaHttpGet => (this.users = resupestaHttpGet));
+    // observable.subscribe(resupestaHttpGet => (this.users = resupestaHttpGet));
+
+    this.stateService.select$().subscribe((state: UserState) => {
+      this.users = state.users;
+      this.newUser = state.newUser;
+      this.selectedUser = state.selectedUser;
+      this.lastId = this.lastId;
+    });
+
+    this.userService
+      .getAll()
+      .subscribe(respuesta =>
+        this.stateService.dispatch(new LoadUsers(respuesta))
+      );
   }
 
   ngOnInit() {}
 
   onSelect(user: User): void {
     this.selectedUser = { ...user };
+    // this.router.navigate(["/users/edit/" + user.id]);
+    // this.userService.selectedUser = user;
+    // this.userService.setSelectedUser(user);
+    // this.router.navigate(["/users/edit"]);
   }
 
   add(user: User): void {
-    this.users.push(user);
-    this.lastId = this.lastId + 1;
-    this.resetNewUser();
+    this.stateService.dispatch(new AddUser(user));
   }
 
   resetNewUser() {
@@ -52,5 +75,6 @@ export class UserCrudBasicComponent implements OnInit {
   delete(user: User) {
     //this.users = this.users.filter(function(el) { return el.id != user.id; });
     this.users = this.users.filter(el => el.id != user.id);
+    this.stateService.dispatch(new DeleteUser(user));
   }
 }

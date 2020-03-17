@@ -1,7 +1,7 @@
-import { Observable } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-
+import { tap } from "rxjs/operators";
 import { User } from "../shared/model/user";
 import { environment } from "../../environments/environment";
 
@@ -10,13 +10,23 @@ import { environment } from "../../environments/environment";
 })
 export class UserService {
   url_api: string;
+  selectedUser: User;
+  users: Array<User> = null;
+  lastId = 10;
+  newUser: User;
 
   constructor(private http: HttpClient) {
     this.url_api = environment.api_url + "users";
   }
 
   getAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.url_api);
+    if (this.users) {
+      return of(this.users);
+    }
+
+    return this.http
+      .get<User[]>(this.url_api)
+      .pipe(tap(respuesta => (this.users = respuesta)));
   }
 
   getOne(id): Observable<any> {
