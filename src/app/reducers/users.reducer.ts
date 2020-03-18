@@ -1,5 +1,5 @@
 import { UserState } from "./user.store";
-import { UserAction } from "./users.actions";
+import { UserAction, UserActionTypes } from "./users.actions";
 
 export const initialUserState: UserState = {
   users: [],
@@ -12,25 +12,26 @@ export function reducer(
   state = initialUserState,
   action: UserAction
 ): UserState {
-  let newstate = { ...state };
+  const newstate = { ...state };
   switch (action.type) {
-    case "[USER]_Load":
+    case UserActionTypes.LoadUsers:
       newstate.users = action.payload;
       break;
-    case "[USER]_Add":
+    case UserActionTypes.AddUser:
       newstate.users = [...state.users];
       newstate.users.push(action.payload);
       newstate.lastId = newstate.lastId + 1;
       newstate.newUser = {
-        id: this.lastId + 1,
+        id: newstate.lastId,
         name: ""
       };
       break;
-    case "[USER]_Delete":
-      let user = action.payload;
-      newstate.users = newstate.users.filter(function(el) {
-        return el.id != user.id;
-      });
+    case UserActionTypes.DeleteUser:
+      const user = action.payload;
+      newstate.users = newstate.users.filter(el => el.id !== user.id);
+      break;
+    case UserActionTypes.SelectUser:
+      newstate.selectedUser = { ...action.payload };
       break;
     default:
       return state;

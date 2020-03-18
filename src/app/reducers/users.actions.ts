@@ -3,7 +3,8 @@ import { User } from "../shared/model/user";
 export enum UserActionTypes {
   LoadUsers = "[USER]_Load",
   AddUser = "[USER]_Add",
-  DeleteUser = "[USER]_Delete"
+  DeleteUser = "[USER]_Delete",
+  SelectUser = "[USER]_Select"
 }
 
 export interface UserAction {
@@ -26,4 +27,9 @@ export class DeleteUser implements UserAction {
   constructor(public readonly payload: User) {}
 }
 
-export type UserActions = LoadUsers | AddUser | DeleteUser;
+export class SelectUser implements UserAction {
+  readonly type = UserActionTypes.SelectUser;
+  constructor(public readonly payload: User) {}
+}
+
+export type UserActions = LoadUsers | AddUser | DeleteUser | SelectUser;

@@ -3,8 +3,13 @@ import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/shared/model/user";
 import { UserService } from "src/app/core/user.service";
 import { Router } from "@angular/router";
+import {
+  LoadUsers,
+  AddUser,
+  DeleteUser,
+  SelectUser
+} from "src/app/reducers/users.actions";
 import { UserState } from "src/app/reducers/user.store";
-import { LoadUsers, AddUser, DeleteUser } from "src/app/reducers/users.actions";
 
 @Component({
   selector: "user-crud-basic",
@@ -17,9 +22,10 @@ export class UserCrudBasicComponent implements OnInit {
   lastId = 10;
   newUser: User;
   selectedUser: User;
-  hide_without_phone: boolean = false;
+  hide_without_phone = false;
 
   constructor(
+    /* private stateService: ReduxUserStateService,*/
     private stateService: ReduxUserStateService,
     private userService: UserService,
     private router: Router
@@ -44,6 +50,12 @@ export class UserCrudBasicComponent implements OnInit {
       .subscribe(respuesta =>
         this.stateService.dispatch(new LoadUsers(respuesta))
       );
+
+    // Ejemplo del crud hecho con la librería en: https://github.com/carherco/meetup-redux
+    // - ng serve: CRUD sin gestión del estado
+    // - ng serve redux: CRUD con redux "manual" (sin la librería)
+    // - ng serve ngrx: CRUD con la librería ngrx
+    // - ng serve effects: CRUD con la librería ngrx + effects
   }
 
   ngOnInit() {
@@ -57,7 +69,8 @@ export class UserCrudBasicComponent implements OnInit {
   }
 
   onSelect(user: User): void {
-    this.selectedUser = { ...user };
+    // this.selectedUser = { ...user };
+    this.stateService.dispatch(new SelectUser(user));
   }
 
   goToEdit(user: User) {
@@ -86,8 +99,8 @@ export class UserCrudBasicComponent implements OnInit {
    * @param user
    */
   delete(user: User) {
-    //this.users = this.users.filter(function(el) { return el.id != user.id; });
-    //this.users = this.users.filter(el => el.id != user.id);
+    // this.users = this.users.filter(function(el) { return el.id != user.id; });
+    // this.users = this.users.filter(el => el.id != user.id);
     this.stateService.dispatch(new DeleteUser(user));
   }
 }
