@@ -18,9 +18,13 @@ export function reducer(
       newstate.users = action.payload;
       break;
     case "[USER]_Add":
-      newstate.users = newstate.users.slice(0); //Una forma de clonar arrays
+      newstate.users = [...state.users];
       newstate.users.push(action.payload);
       newstate.lastId = newstate.lastId + 1;
+      newstate.newUser = {
+        id: this.lastId + 1,
+        name: ""
+      };
       break;
     case "[USER]_Delete":
       let user = action.payload;

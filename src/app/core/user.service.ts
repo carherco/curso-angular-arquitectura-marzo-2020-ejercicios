@@ -9,11 +9,11 @@ import { environment } from "../../environments/environment";
   providedIn: "root"
 })
 export class UserService {
-  url_api: string;
-  selectedUser: User;
-  users: Array<User> = null;
-  lastId = 10;
-  newUser: User;
+  private url_api: string;
+  private selectedUser: User;
+  private users: Array<User> = null;
+  private lastId = 10;
+  private newUser: User;
 
   constructor(private http: HttpClient) {
     this.url_api = environment.api_url + "users";
@@ -43,5 +43,13 @@ export class UserService {
 
   delete(id) {
     return this.http.delete(this.url_api + "/" + id);
+  }
+
+  setSelectedUser(user: User) {
+    this.selectedUser = user;
+  }
+
+  getSelectedUser() {
+    return { ...this.selectedUser };
   }
 }

@@ -14,14 +14,19 @@
         [class.selected]="user === selectedUser"
         [ngClass]="{ seleccionado: selectedUser == user }"
         [style.font-size]="selectedUser == user ? '20px' : ''"
-        (click)="onSelect(user)"
       >
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.phone }}</td>
         <td>
-          <button class="btn btn-danger" (click)="delete(user)">X</button>
+          <button class="btn btn-danger" (click)="onSelect(user)">Ver</button>
+          <button class="btn btn-danger" (click)="onEdit(user)">
+            Modificar
+          </button>
+          <button class="btn btn-danger" (click)="delete(user)">
+            Eliminar
+          </button>
         </td>
       </tr>
     </table>

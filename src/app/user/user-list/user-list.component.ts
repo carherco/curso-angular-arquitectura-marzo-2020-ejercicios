@@ -10,13 +10,19 @@ export class UserListComponent implements OnInit {
   @Input() users: User[];
   @Input() selectedUser: User;
   @Output() selectEvent: EventEmitter<User> = new EventEmitter();
+  @Output() editEvent: EventEmitter<User> = new EventEmitter();
   @Output() deleteEvent: EventEmitter<User> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onSelect(user: User) {
     this.selectEvent.emit(user);
+  }
+
+  onEdit(user: User) {
+    this.editEvent.emit(user);
   }
 
   delete(user: User) {

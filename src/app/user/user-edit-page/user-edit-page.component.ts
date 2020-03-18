@@ -12,16 +12,29 @@ export class UserEditPageComponent implements OnInit {
   id: number;
   user: User;
 
-  constructor(private ruta: ActivatedRoute, private userService: UserService) {
-    // this.ruta.params.subscribe(p => {
+  constructor(
+    private ruta: ActivatedRoute,
+    private userService: UserService,
+    private route: Router
+  ) {
+    // this.ruta.queryParams.subscribe(p => {
     //   this.id = p["id"];
     //   this.userService
     //     .getOne(this.id)
     //     .subscribe(respuesta => (this.user = respuesta));
     // });
+    // this.id = this.ruta.snapshot.params["id"];
+    // this.userService
+    //   .getOne(this.id)
+    //   .subscribe(respuesta => (this.user = respuesta));
 
-    this.user = this.userService.selectedUser;
+    this.user = this.userService.getSelectedUser();
+    this.id = this.user.id;
   }
 
   ngOnInit(): void {}
+
+  siguiente() {
+    this.route.navigate(["users/edit/" + (+this.id + 1)]);
+  }
 }

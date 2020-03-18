@@ -30,14 +30,13 @@ export class UserCrudBasicComponent implements OnInit {
     // };
 
     // let observable = this.userService.getAll();
-
     // observable.subscribe(resupestaHttpGet => (this.users = resupestaHttpGet));
 
     this.stateService.select$().subscribe((state: UserState) => {
       this.users = state.users;
       this.newUser = state.newUser;
       this.selectedUser = state.selectedUser;
-      this.lastId = this.lastId;
+      this.lastId = state.lastId;
     });
 
     this.userService
@@ -47,26 +46,40 @@ export class UserCrudBasicComponent implements OnInit {
       );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // if(this.userService.hayCosasGuardadas()) {
+    //   this.filtro = this.userService.getFiltro();
+    // }
+  }
+
+  ngOnDestroy() {
+    // this.userService.guardarFiltro(this.filtro);
+  }
 
   onSelect(user: User): void {
     this.selectedUser = { ...user };
-    // this.router.navigate(["/users/edit/" + user.id]);
-    // this.userService.selectedUser = user;
-    // this.userService.setSelectedUser(user);
-    // this.router.navigate(["/users/edit"]);
+  }
+
+  goToEdit(user: User) {
+    // this.router.navigate(["/users/edit/" + user.id]); // por param
+    // this.router.navigate(["/users/edit?id=" + user.id]); // por query-param
+    // this.userService.selectedUser = user; // property bag con propiedades públicas
+    this.userService.setSelectedUser(user); // property bag con getters y setters
+    this.router.navigate(["/users/edit"]);
   }
 
   add(user: User): void {
+    // this.users.push(user);
+    // this.lastId = this.lastId + 1;
     this.stateService.dispatch(new AddUser(user));
   }
 
-  resetNewUser() {
-    this.newUser = {
-      id: this.lastId + 1,
-      name: ""
-    };
-  }
+  // resetNewUser() {
+  //   this.newUser = {
+  //     id: this.lastId + 1,
+  //     name: ""
+  //   };
+  // }
 
   /**
    * Función delete recibiendo el usuario que se quiere eliminar
@@ -74,7 +87,7 @@ export class UserCrudBasicComponent implements OnInit {
    */
   delete(user: User) {
     //this.users = this.users.filter(function(el) { return el.id != user.id; });
-    this.users = this.users.filter(el => el.id != user.id);
+    //this.users = this.users.filter(el => el.id != user.id);
     this.stateService.dispatch(new DeleteUser(user));
   }
 }
